@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import StarShipCards from "./components/services/StarShipCards";
+// import from react library
+import { useState, useEffect } from "react";
+import { getAllStarships } from "./components/services/Api";
 
 function App() {
+  const [starShips, setStarships] = useState([]);
+
+  useEffect(() => {
+    fetchStarships();
+  }, []);
+
+  async function fetchStarships() {
+    try {
+      const data = await getAllStarships();
+      setStarships(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching starships:", error);
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Star Wars Starship</h1>
+      <StarShipCards starShips={starShips} />
     </div>
   );
 }
